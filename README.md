@@ -11,6 +11,7 @@ This terminal program is a simplified version of the thrilling casino game Black
 * Put togeter my Python knowledge
 * Use modules and classes
 
+
 ## Technologies
 * Python
 * Git & Github
