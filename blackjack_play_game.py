@@ -18,6 +18,9 @@ losers = []
 # Skip a line when going from one task to another to improve readability in the termianl
 def skip_line():
     print("")
+def skip_2_lines():
+    print("")
+    print("")
 
 # PLAYER CLASS
 class Player:
@@ -58,11 +61,18 @@ def play_blackjack():
 
     bj.explain_moves()
 
-    skip_line()
+    skip_2_lines()
 
-    for player in players:
-        player_move = bj.get_next_move(player)
-        bj.play_round(player, player_move)
+    while (len(winners) == 0 and len(losers) == 0):
+        for player in players:
+            player_move = bj.get_next_move(player)
+            bj.play_round(player, player_move)
+            bj.status(player)
+            skip_line()
+
+            if player.won == True:
+                winners.append(player.name)
+            elif player.lost == True:
+                losers.append(player.name)
     
 play_blackjack()
-#print(play_blackjack())

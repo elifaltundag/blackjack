@@ -80,14 +80,13 @@ def play_round(player, move):
 
     print(f"{player.name}'s cards: {player.cards} => total: {player.sum_cards}")
 
+def status(player):
     if player.sum_cards == 21:
         player.won = True
-        winners.append(player.name)
+        # winners.append(player.name)
         print(f"Yeay {player.name} you won!")
 
     elif player.sum_cards > 21:
         player.lost = True
-        losers.append(player.name)
+        # losers.append(player.name)
         print(f"Sorry {player.name}, you lost...")
-    
-    print("")
