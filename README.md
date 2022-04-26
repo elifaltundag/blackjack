@@ -14,6 +14,6 @@ This terminal program is a simplified version of the thrilling casino game Black
 
 
 ## Further Improvements
+* Loop until a player wins or loses
 * Add all the moves 
 * Post the project on a blog
-* Loop until a player wins or loses
