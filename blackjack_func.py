@@ -1,29 +1,41 @@
-"""
-Basic terminal program of the game Blackjack
-"""
+# IMPORTED MODULES
 import random
 
-# CARDS 
+
+# VARIABLES
 cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"]
+# The whole deck of 52 cards
 deck = []
 for card in cards:
     for i in range(4):
         deck.append(card)
 
+players = []
 winners = []
 losers = []
 
 # FUNCTIONS
+# Opening greeting at the beginning
+def greeting():
+    print("\n---   Welcome to the Blackjack Casino by Elif!   ---\n")
+
+
+# Explaination of the possible moves
+def explain_moves():
+    print("Now let's start playing!\nThere are 2 possible moves you can play:\nHit   : Take another card\nStand : Take no more cards\n\n(Lower and upper cases are ignored)")
+
+
+# Get the number of players and their names
 def get_players_names():
-    print("Welcome to Blackjack Casino by Elif!")
     num_players = int(input("Enter number of players: "))
     
     player_names = []
     for i in range(num_players):
-        player_names.append(input(f"Player{i+1}, enter your nickname: ").strip())
+        player_names.append(input(f"Player{i+1}, enter your name: ").strip())
     return player_names
 
 
+# Each player is dealt 2 cards at the beginning
 def deal_first_cards():
     num_first_cards = 2
     first_cards = []
@@ -50,16 +62,13 @@ def calculate_sum(cards):
     return sum_cards
 
 
-def explain_moves():
-    print("\nNow let's start playing!\nThere are 2 possible moves you can play:\nHit   : Take another card\nStand : Take no more cards\n\n(Lower and upper cases are ignored)\n")
-
 
 def get_next_move(player):
     next_move = input(f"{player}'s next move: ").strip().lower()
     return next_move
 
 
-def play_round(move):
+def play_round(player, move):
     if move == "hit":
         random_card = random.choice(deck)
         player.cards.append(random_card)
@@ -82,44 +91,3 @@ def play_round(move):
         print(f"Sorry {player.name}, you lost...")
     
     print("")
-
-
-
-# PLAYER CLASS
-class Player:
-    def __init__(self, name = "PlayerX", won = False, lost = False):
-        self.name = name
-        self.cards = deal_first_cards()
-        self.sum_cards = calculate_sum(self.cards)
-        self.won = won
-        self.lost = lost
-
-    def __repr__(self):
-        return f"{self.name}'s cards: {self.cards} => total: {self.sum_cards}"  
-
-
-
-
-
-# CONTROL FLOW
-# print(len(deck))
-players_names = get_players_names()
-
-players = []
-for player_name in players_names:
-    player_name = Player(player_name)
-    players.append(player_name)
-
-# print(len(deck))
-
-print("")
-for player in players:
-    print(player)
-
-explain_moves()
-
-for player in players:
-    player_move = get_next_move(player.name)
-    play_round(player_move)
-
-
