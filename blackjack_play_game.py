@@ -1,20 +1,22 @@
 # IMPORT MODULES
 import random
+from shutil import move
 import blackjack_func as bj
 
-
-# VARIABLES
-""" cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"]
-deck = []
-for card in cards:
-    for i in range(4):
-        deck.append(card) """
+# -------------------- #
+# VARIABLES ---------- #
+# -------------------- #
 
 players = []
 winners = []
 losers = []
 
-# FUCNTIONS
+
+
+# -------------------- #
+# FUCNTIONS ---------- #
+# -------------------- #
+
 # Skip a line when going from one task to another to improve readability in the termianl
 def skip_line():
     print("")
@@ -22,20 +24,32 @@ def skip_2_lines():
     print("")
     print("")
 
-# PLAYER CLASS
+
+
+# -------------------- #
+# PLAYER CLASS ------- #
+# -------------------- #
+
 class Player:
-    def __init__(self, name = "PlayerX", won = False, lost = False):
+    def __init__(self, name = "PlayerX", move = None, won = False, lost = False):
         self.name = name
         self.cards = bj.deal_first_cards()
         self.sum_cards = bj.calculate_sum(self.cards)
+        self.move = move
         self.won = won
         self.lost = lost
 
     def __repr__(self):
         return f"{self.name}'s cards: {self.cards} => total: {self.sum_cards}"
 
+house = Player("House")
+players.append(house)
 
-# ONE FUNCTION FOR THE WHOLE CONTROL FLOW
+
+# --------------------------------------- #
+# ONE FUNCTION FOR THE WHOLE CONTROL FLOW #
+# --------------------------------------- #
+
 def play_blackjack():
     
     # Introduce the game 
@@ -49,24 +63,26 @@ def play_blackjack():
     for player_name in players_names:
         player_name = Player(player_name)
         players.append(player_name)
-        
-    
     skip_line() 
 
     # Print each players cards and the total sum 
     for player in players:
         print(player)
-
-    skip_line()
-
-    bj.explain_moves()
-
     skip_2_lines()
 
+    bj.explain_moves()
+    skip_2_lines()
+
+    # Get each player's move, play accordingly
+    # Unless there is a winner o loser, keep playing
     while (len(winners) == 0 and len(losers) == 0):
         for player in players:
-            player_move = bj.get_next_move(player)
-            bj.play_round(player, player_move)
+            if player == house: 
+                player.move = bj.get_next_move_house(player)
+            else: 
+                player.move = bj.get_next_move(player)
+            
+            bj.play_round(player)
             bj.status(player)
             skip_line()
 
@@ -74,5 +90,10 @@ def play_blackjack():
                 winners.append(player.name)
             elif player.lost == True:
                 losers.append(player.name)
-    
+
+
+
+# -------------------- #
+# PLAY THE GAME ------ #
+# -------------------- #
 play_blackjack()
