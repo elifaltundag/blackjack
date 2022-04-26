@@ -64,7 +64,7 @@ def calculate_sum(cards):
 
 
 def get_next_move(player):
-    next_move = input(f"{player}'s next move: ").strip().lower()
+    next_move = input(f"{player.name}'s next move: ").strip().lower()
     return next_move
 
 
