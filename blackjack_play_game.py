@@ -76,13 +76,20 @@ def play_blackjack():
     # Get each player's move, play accordingly
     # Unless there is a winner o loser, keep playing
     while (len(winners) == 0 and len(losers) == 0):
-        # if SOMEONE NOT STANDING
+        standing = []     
+        for player in players:
+            if player == house: 
+                player.move_chosen = bj.get_next_move_house(player)
+            else: 
+                player.move_chosen = bj.get_next_move(player)
+            
+            if player.move_chosen == "stand":
+                standing.append(player)
+
+        skip_2_lines()    
+            # if SOMEONE NOT STANDING        
+        if len(standing) < len(players):
             for player in players:
-                if player == house: 
-                    player.move_chosen = bj.get_next_move_house(player)
-                else: 
-                    player.move_chosen = bj.get_next_move(player)
-                
                 bj.play_round(player)
                 bj.status(player)
                 skip_line()
@@ -91,8 +98,14 @@ def play_blackjack():
                     winners.append(player.name)
                 elif player.lost == True:
                     losers.append(player.name)
-        
-        # elif EVERYONE IS STANDING:
+            
+            # elif EVERYONE IS STANDING:
+        elif len(standing) == len(players):
+            bj.everyone_standing()
+            break
+
+    skip_2_lines()    
+    bj.end_game(players)
 
 
 

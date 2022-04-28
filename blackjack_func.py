@@ -72,7 +72,7 @@ def get_next_move(player):
     player.move_chosen = input(f"{player.name}'s next move: ").strip().lower()
     return player.move_chosen
 
-# Play a round depending on the house's card's total sum 
+# Get the House's move depending on the its' cards' total sum 
 def get_next_move_house(player): 
     if player.sum_cards < 18:
         player.move_chosen = "hit"
@@ -83,7 +83,7 @@ def get_next_move_house(player):
 
 
 
-# Play a round depending on the player's move
+# Play a round depending on the move
 def play_round(player): 
     if player.move_chosen == "hit": # Deal a random and remove it from the deck
         random_card = random.choice(deck)
@@ -108,4 +108,13 @@ def status(player):
         player.lost = True
         print(f"Sorry {player.name}, you lost...")
 
+# End the game if everyone is standing
+def everyone_standing():
+    print("Looks like everybody's standing so it's time to end game.")
+
+
+def end_game(players): 
+    print("Player: Points")
+    for player in players:
+        print(f"{player.name}: {player.sum_cards}")
 
