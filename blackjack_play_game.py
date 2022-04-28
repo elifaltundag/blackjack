@@ -1,6 +1,5 @@
 # IMPORT MODULES
 import random
-from shutil import move
 import blackjack_func as bj
 
 # -------------------- #
@@ -31,11 +30,11 @@ def skip_2_lines():
 # -------------------- #
 
 class Player:
-    def __init__(self, name = "PlayerX", move = None, won = False, lost = False):
+    def __init__(self, name = "PlayerX", sum_cards = 0, move_chosen = None, won = False, lost = False):
         self.name = name
         self.cards = bj.deal_first_cards()
-        self.sum_cards = bj.calculate_sum(self.cards)
-        self.move = move
+        self.sum_cards = bj.calculate_sum(self)
+        self.move_chosen = move_chosen
         self.won = won
         self.lost = lost
 
@@ -44,6 +43,7 @@ class Player:
 
 house = Player("House")
 players.append(house)
+
 
 
 # --------------------------------------- #
@@ -76,20 +76,23 @@ def play_blackjack():
     # Get each player's move, play accordingly
     # Unless there is a winner o loser, keep playing
     while (len(winners) == 0 and len(losers) == 0):
-        for player in players:
-            if player == house: 
-                player.move = bj.get_next_move_house(player)
-            else: 
-                player.move = bj.get_next_move(player)
-            
-            bj.play_round(player)
-            bj.status(player)
-            skip_line()
+        # if SOMEONE NOT STANDING
+            for player in players:
+                if player == house: 
+                    player.move_chosen = bj.get_next_move_house(player)
+                else: 
+                    player.move_chosen = bj.get_next_move(player)
+                
+                bj.play_round(player)
+                bj.status(player)
+                skip_line()
 
-            if player.won == True:
-                winners.append(player.name)
-            elif player.lost == True:
-                losers.append(player.name)
+                if player.won == True:
+                    winners.append(player.name)
+                elif player.lost == True:
+                    losers.append(player.name)
+        
+        # elif EVERYONE IS STANDING:
 
 
 
@@ -97,3 +100,4 @@ def play_blackjack():
 # PLAY THE GAME ------ #
 # -------------------- #
 play_blackjack()
+

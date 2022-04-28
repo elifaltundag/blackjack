@@ -51,47 +51,49 @@ def deal_first_cards():
     return first_cards
 
 # Calculate the sum of the cards in hand
-def calculate_sum(cards):
-    sum_cards = 0
-    for card in cards:
+def calculate_sum(player):
+    player.sum_cards = 0
+    for card in player.cards:
         if card != "A":
             if isinstance(card, int):   # 2 - 10 : their own values 
-                sum_cards += card
+                player.sum_cards += card
             elif isinstance(card, str): # J, Q, K : 10
-                sum_cards += 10
+                player.sum_cards += 10
         elif card == "A":               # A: 1 or 11 depending on the sum of the other cards 
-            if sum_cards + 11 > 21:
-                sum_cards += 1
-            elif sum_cards + 11 <= 21:
-                sum_cards += 11
-    return sum_cards
+            if player.sum_cards + 11 > 21:
+                player.sum_cards += 1
+            elif player.sum_cards + 11 <= 21:
+                player.sum_cards += 11
+    return player.sum_cards
 
 
 # Get the move of the player
 def get_next_move(player):
-    next_move = input(f"{player.name}'s next move: ").strip().lower()
-    return next_move
+    player.move_chosen = input(f"{player.name}'s next move: ").strip().lower()
+    return player.move_chosen
 
 # Play a round depending on the house's card's total sum 
 def get_next_move_house(player): 
-    if player.sum_cards < 15:
-        player.move = "hit"
-    elif player.sum_cards >= 15:
-        player.move = "stand"
-    print(f"{player.name}'s next move: {player.move}")
+    if player.sum_cards < 18:
+        player.move_chosen = "hit"
+    elif player.sum_cards >= 18:
+        player.move_chosen = "stand"
+    print(f"{player.name}'s next move: {player.move_chosen}")
+    return player.move_chosen
 
 
 
 # Play a round depending on the player's move
 def play_round(player): 
-    if player.move == "hit": # Deal a random and remove it from the deck
+    if player.move_chosen == "hit": # Deal a random and remove it from the deck
         random_card = random.choice(deck)
         player.cards.append(random_card)
         deck.remove(random_card)
-        player.sum_cards = calculate_sum(player.cards)    
+        player.sum_cards = calculate_sum(player)    
         
-    elif player.move == "stand": # Do nothing
+    elif player.move_chosen == "stand": # Do nothing
         pass
+
 
     print(f"{player.name}'s cards: {player.cards} => total: {player.sum_cards}")
 
@@ -105,3 +107,5 @@ def status(player):
     elif player.sum_cards > 21:
         player.lost = True
         print(f"Sorry {player.name}, you lost...")
+
+
