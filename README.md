@@ -19,6 +19,7 @@ This terminal program is a simplified version of the thrilling casino game Black
 
 
 ## Further Improvements
+* Eliminate players list in the functions module
 * How can a dictionary be useful for this program?
 * Add all the moves 
 * Post the project on a blog
